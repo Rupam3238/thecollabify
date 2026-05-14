@@ -59,60 +59,66 @@ export default function SignupPopup({ isOpen, initialMode, onClose }: SignupPopu
   }, [handleKeyDown]);
 
   const handleBrandSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitting(true);
-    setError('');
-    try {
-      const res = await fetch(BRAND_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          name: brandForm.name,
-          brand_name: brandForm.brandName,
-          email: brandForm.email,
-          industry: brandForm.industry,
-          campaign_budget: brandForm.budget,
-        }),
-      });
-      if (res.ok) {
-        setSubmitted(true);
-      } else {
-        setError('Something went wrong. Please try again.');
-      }
-    } catch {
-      setError('Something went wrong. Please try again.');
-    } finally {
-      setSubmitting(false);
+  e.preventDefault();
+  setSubmitting(true);
+  setError('');
+  try {
+    const formData = new FormData();
+    formData.append('name', brandForm.name);
+    formData.append('brand_name', brandForm.brandName);
+    formData.append('email', brandForm.email);
+    formData.append('industry', brandForm.industry);
+    formData.append('campaign_budget', brandForm.budget);
+
+    const res = await fetch(BRAND_ENDPOINT, {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (res.ok) {
+      setSubmitted(true);
+      setBrandForm({ name: '', brandName: '', email: '', industry: '', budget: '' });
+    } else {
+      setError('Submission failed. Please try again.');
     }
-  };
+  } catch (err) {
+    setError('Network error. Please try again.');
+    console.error(err);
+  } finally {
+    setSubmitting(false);
+  }
+};
 
   const handleCreatorSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitting(true);
-    setError('');
-    try {
-      const res = await fetch(CREATOR_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          name: creatorForm.name,
-          email: creatorForm.email,
-          platform: creatorForm.platform,
-          content_niche: creatorForm.niche,
-          follower_count: creatorForm.followers,
-        }),
-      });
-      if (res.ok) {
-        setSubmitted(true);
-      } else {
-        setError('Something went wrong. Please try again.');
-      }
-    } catch {
-      setError('Something went wrong. Please try again.');
-    } finally {
-      setSubmitting(false);
+  e.preventDefault();
+  setSubmitting(true);
+  setError('');
+  try {
+    const formData = new FormData();
+    formData.append('name', creatorForm.name);
+    formData.append('email', creatorForm.email);
+    formData.append('platform', creatorForm.platform);
+    formData.append('content_niche', creatorForm.niche);
+    formData.append('follower_count', creatorForm.followers);
+
+    const res = await fetch(CREATOR_ENDPOINT, {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (res.ok) {
+      setSubmitted(true);
+      setCreatorForm({ name: '', email: '', platform: '', niche: '', followers: '' });
+    } else {
+      setError('Submission failed. Please try again.');
     }
-  };
+  } catch (err) {
+    setError('Network error. Please try again.');
+    console.error(err);
+  } finally {
+    setSubmitting(false);
+  }
+};
 
   const inputClass =
     'w-full px-3.5 py-2.5 rounded-xl border border-input bg-muted text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all';
