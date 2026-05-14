@@ -34,7 +34,7 @@ export default function Header({ variant = 'default', onOpenPopup }: HeaderProps
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isTransparent
-            ? 'py-6 bg-black/50 backdrop-blur-md border-b border-white/10' :'py-3 bg-card/90 backdrop-blur-md border-b border-border shadow-sm'
+            ? 'py-6 bg-black/100 backdrop-blur-md border-b border-white/10' :'py-3 bg-card/90 backdrop-blur-md border-b border-border shadow-sm'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
