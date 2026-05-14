@@ -6,108 +6,154 @@ import Footer from '@/components/Footer';
 import SignupPopup from '@/components/SignupPopup';
 import AppImage from '@/components/ui/AppImage';
 
+// ─────────────────────────────────────────────────────────────────────────────
+// CREATOR DATA — Edit this array to add/remove/update creators.
+// Adding a creator: add one object here. The card renders automatically.
+// Fields:
+//   id          — unique number
+//   name        — display name
+//   niche       — niche/category label
+//   followers   — formatted string e.g. "284K"
+//   platform    — "Instagram" | "YouTube" | "TikTok" | "Twitter/X" | "LinkedIn"
+//   bio         — one-liner description
+//   image       — URL string; leave "" to use emoji placeholder
+//   socialLink  — clickable link to their profile
+//   tags        — array of strings for filter chips
+//   engagement  — engagement rate string e.g. "4.8%"
+// ─────────────────────────────────────────────────────────────────────────────
 interface Creator {
   id: number;
   name: string;
-  handle: string;
   niche: string;
   followers: string;
   platform: string;
-  engagement: string;
+  bio: string;
   image: string;
-  profileUrl: string;
+  socialLink: string;
   tags: string[];
+  engagement: string;
 }
 
-const creatorsArray: Creator[] = [
+// Emoji placeholders by niche keyword
+const nicheEmoji: Record<string, string> = {
+  lifestyle: '🌿',
+  wellness: '🌿',
+  fitness: '⚡',
+  nutrition: '⚡',
+  beauty: '✨',
+  skincare: '✨',
+  tech: '💻',
+  gadgets: '💻',
+  food: '🍃',
+  travel: '🗺️',
+  finance: '📈',
+  fashion: '👗',
+  gaming: '🎮',
+  education: '📚'
+};
+
+function getEmojiForNiche(niche: string): string {
+  const lower = niche.toLowerCase();
+  for (const [key, emoji] of Object.entries(nicheEmoji)) {
+    if (lower.includes(key)) return emoji;
+  }
+  return '🎯';
+}
+
+export const creatorsData: Creator[] = [
 {
   id: 1,
   name: 'Maya Chen',
-  handle: '@mayalifestyle',
   niche: 'Lifestyle & Wellness',
   followers: '284K',
   platform: 'Instagram',
-  engagement: '4.8%',
-  image: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=800&auto=format&fit=crop',
-  profileUrl: 'https://instagram.com',
-  tags: ['Wellness', 'Lifestyle', 'Fitness']
+  bio: 'Mindful living, wellness routines, and sustainable lifestyle content.',
+  image: "https://img.rocket.new/generatedImages/rocket_gen_img_16ae92358-1764700009296.png",
+  socialLink: 'https://instagram.com',
+  tags: ['Wellness', 'Lifestyle', 'Fitness'],
+  engagement: '4.8%'
 },
 {
   id: 2,
   name: 'Jordan Rivers',
-  handle: '@jordanfitness',
   niche: 'Fitness & Nutrition',
   followers: '512K',
   platform: 'TikTok',
-  engagement: '6.2%',
-  image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=800&auto=format&fit=crop',
-  profileUrl: 'https://tiktok.com',
-  tags: ['Fitness', 'Nutrition', 'Training']
+  bio: 'High-energy fitness content, meal prep, and training breakdowns.',
+  image: "https://img.rocket.new/generatedImages/rocket_gen_img_121498676-1772745342117.png",
+  socialLink: 'https://tiktok.com',
+  tags: ['Fitness', 'Nutrition', 'Training'],
+  engagement: '6.2%'
 },
 {
   id: 3,
   name: 'Sofia Martinez',
-  handle: '@sofiabeauty',
   niche: 'Beauty & Skincare',
   followers: '178K',
   platform: 'Instagram',
-  engagement: '5.4%',
-  image: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=800&auto=format&fit=crop',
-  profileUrl: 'https://instagram.com',
-  tags: ['Beauty', 'Skincare', 'Makeup']
+  bio: 'Honest skincare reviews, makeup tutorials, and clean beauty advocacy.',
+  image: "https://img.rocket.new/generatedImages/rocket_gen_img_1edf0cd96-1775002085658.png",
+  socialLink: 'https://instagram.com',
+  tags: ['Beauty', 'Skincare', 'Makeup'],
+  engagement: '5.4%'
 },
 {
   id: 4,
   name: 'Alex Park',
-  handle: '@alextechtalk',
   niche: 'Tech & Gadgets',
   followers: '390K',
   platform: 'YouTube',
-  engagement: '3.9%',
-  image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800&auto=format&fit=crop',
-  profileUrl: 'https://youtube.com',
-  tags: ['Tech', 'Gadgets', 'Reviews']
+  bio: 'In-depth tech reviews, unboxings, and productivity setups.',
+  image: "https://img.rocket.new/generatedImages/rocket_gen_img_1fa2729dc-1772857537681.png",
+  socialLink: 'https://youtube.com',
+  tags: ['Tech', 'Gadgets', 'Reviews'],
+  engagement: '3.9%'
 },
 {
   id: 5,
   name: 'Priya Nair',
-  handle: '@priyaeats',
   niche: 'Food & Travel',
   followers: '224K',
   platform: 'Instagram',
-  engagement: '5.1%',
-  image: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?q=80&w=800&auto=format&fit=crop',
-  profileUrl: 'https://instagram.com',
-  tags: ['Food', 'Travel', 'Culture']
+  bio: 'Culinary adventures, travel diaries, and cultural food stories.',
+  image: "https://img.rocket.new/generatedImages/rocket_gen_img_17ca6f866-1766433686990.png",
+  socialLink: 'https://instagram.com',
+  tags: ['Food', 'Travel', 'Culture'],
+  engagement: '5.1%'
 },
 {
   id: 6,
   name: 'Marcus Webb',
-  handle: '@marcusfinance',
   niche: 'Personal Finance',
   followers: '156K',
   platform: 'TikTok',
-  engagement: '7.3%',
-  image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=800&auto=format&fit=crop',
-  profileUrl: 'https://tiktok.com',
-  tags: ['Finance', 'Investing', 'Money']
+  bio: 'Demystifying investing, budgeting, and building wealth for Gen Z.',
+  image: "https://img.rocket.new/generatedImages/rocket_gen_img_195d3b218-1768504042528.png",
+  socialLink: 'https://tiktok.com',
+  tags: ['Finance', 'Investing', 'Money'],
+  engagement: '7.3%'
 }];
 
 
 const platformIcon = (platform: string) => {
-  if (platform === 'Instagram') return (
+  if (platform === 'Instagram')
+  return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-    </svg>);
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+      </svg>);
 
-  if (platform === 'TikTok') return (
+  if (platform === 'TikTok')
+  return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.17 8.17 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z" />
-    </svg>);
+        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.17 8.17 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z" />
+      </svg>);
 
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.4 19.54C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z" /><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" />
+      <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.4 19.54C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z" />
+      <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" />
     </svg>);
 
 };
@@ -116,15 +162,16 @@ export default function ForBrandsClient() {
   const [popupOpen, setPopupOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState('All');
 
-  const openPopup = () => {
-    setPopupOpen(true);
-  };
+  const openPopup = () => setPopupOpen(true);
 
   const filters = ['All', 'Lifestyle', 'Fitness', 'Beauty', 'Tech', 'Food', 'Finance'];
 
-  const filteredCreators = activeFilter === 'All' ?
-  creatorsArray :
-  creatorsArray.filter((c) => c.tags.some((t) => t.toLowerCase().includes(activeFilter.toLowerCase())));
+  const filteredCreators =
+  activeFilter === 'All' ?
+  creatorsData :
+  creatorsData.filter((c) =>
+  c.tags.some((t) => t.toLowerCase().includes(activeFilter.toLowerCase()))
+  );
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -150,7 +197,8 @@ export default function ForBrandsClient() {
       htmlEl.style.opacity = '0';
       htmlEl.style.transform = 'translateY(24px)';
       htmlEl.style.filter = 'blur(6px)';
-      htmlEl.style.transition = 'opacity 0.65s cubic-bezier(0.4,0,0.2,1), transform 0.65s cubic-bezier(0.4,0,0.2,1), filter 0.65s cubic-bezier(0.4,0,0.2,1)';
+      htmlEl.style.transition =
+      'opacity 0.65s cubic-bezier(0.4,0,0.2,1), transform 0.65s cubic-bezier(0.4,0,0.2,1), filter 0.65s cubic-bezier(0.4,0,0.2,1)';
       observer.observe(htmlEl);
     });
 
@@ -198,7 +246,13 @@ export default function ForBrandsClient() {
 
   return (
     <>
-      <Header variant="transparent" onOpenPopup={(mode) => {if (mode === 'brand') openPopup();else setPopupOpen(true);}} />
+      <Header
+        variant="transparent"
+        onOpenPopup={(mode) => {
+          if (mode === 'brand') openPopup();else
+          setPopupOpen(true);
+        }} />
+      
 
       {/* Hero */}
       <section className="relative min-h-[80vh] flex items-end px-6 md:px-12 pb-16 overflow-hidden">
@@ -210,17 +264,17 @@ export default function ForBrandsClient() {
             className="object-cover"
             priority />
           
-          <div className="absolute inset-0 bg-gradient-to-t from-dark-section via-dark-section/60 to-dark-section/20" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0C1A3A] via-[#0C1A3A]/70 to-[#0C1A3A]/30" />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto w-full grid lg:grid-cols-12 gap-12 items-end">
           <div className="lg:col-span-7">
-            <span className="section-label bg-white/10 border-white/20 text-white/70 mb-6 inline-flex">For Brands</span>
+            <span className="section-label bg-white/10 border-white/20 text-white/90 mb-6 inline-flex">For Brands</span>
             <h1 className="font-display text-hero font-black text-white mt-4 mb-6">
               Stop guessing.<br />
               <span className="italic" style={{ color: 'var(--accent)' }}>Start matching.</span>
             </h1>
-            <p className="text-lg text-white/70 leading-relaxed max-w-lg mb-8 border-l-2 border-accent pl-4">
+            <p className="text-lg text-white/85 leading-relaxed max-w-lg mb-8 border-l-2 border-accent pl-4">
               We find the creator who already speaks to your audience. You brief us once — we handle everything else.
             </p>
             <div className="flex flex-wrap gap-3">
@@ -234,8 +288,8 @@ export default function ForBrandsClient() {
           </div>
 
           <div className="lg:col-span-5 hidden lg:block">
-            <div className="glass-card rounded-2xl p-6 text-white">
-              <p className="text-xs font-bold uppercase tracking-widest text-white/50 mb-5">What brands get</p>
+            <div className="bg-[#0C1A3A]/80 backdrop-blur-md border border-white/20 rounded-2xl p-6 text-white">
+              <p className="text-xs font-bold uppercase tracking-widest text-white/70 mb-5">What brands get</p>
               <div className="space-y-4">
                 {[
                 'Curated creator shortlist in 48 hours',
@@ -244,12 +298,12 @@ export default function ForBrandsClient() {
                 'Commission only — pay when it closes'].
                 map((item, i) =>
                 <div key={i} className="flex items-center gap-3">
-                    <div className="w-5 h-5 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
+                    <div className="w-5 h-5 rounded-full bg-accent/30 flex items-center justify-center shrink-0">
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-accent">
                         <polyline points="20 6 9 17 4 12" />
                       </svg>
                     </div>
-                    <span className="text-sm text-white/80">{item}</span>
+                    <span className="text-sm text-white font-medium">{item}</span>
                   </div>
                 )}
               </div>
@@ -315,23 +369,29 @@ export default function ForBrandsClient() {
             )}
           </div>
 
-          {/* Creator cards — rendered from JS array */}
+          {/* Creator cards — rendered from creatorsData array above */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredCreators.map((creator, i) =>
             <div key={creator.id} className="creator-card reveal-on-scroll" data-delay={String(i * 0.08)}>
                 <a
-                href={creator.profileUrl}
+                href={creator.socialLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block relative h-52 overflow-hidden group"
                 aria-label={`Visit ${creator.name}'s profile`}>
                 
-                  <AppImage
+                  {creator.image ?
+                <AppImage
                   src={creator.image}
                   alt={`${creator.name}, ${creator.niche} creator with ${creator.followers} followers`}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-700" />
-                
+                  className="object-cover group-hover:scale-105 transition-transform duration-700" /> :
+
+
+                <div className="w-full h-full bg-primary/10 flex items-center justify-center">
+                      <span className="text-6xl">{getEmojiForNiche(creator.niche)}</span>
+                    </div>
+                }
                   <div className="overlay-scrim" />
                   <div className="absolute top-3 left-3 z-10">
                     <span className="pill-badge bg-dark-section/80 text-white border border-white/10 backdrop-blur-sm flex items-center gap-1.5">
@@ -344,17 +404,17 @@ export default function ForBrandsClient() {
                   </div>
                 </a>
                 <div className="p-5">
-                  <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-start justify-between mb-2">
                     <div>
                       <h3 className="font-display text-lg font-semibold text-foreground">{creator.name}</h3>
-                      <p className="text-xs text-muted-foreground">{creator.handle}</p>
+                      <p className="text-xs text-muted-foreground">{creator.niche}</p>
                     </div>
                     <div className="text-right">
                       <p className="font-display text-xl font-bold text-primary">{creator.followers}</p>
                       <p className="text-[10px] text-muted-foreground uppercase tracking-wide">followers</p>
                     </div>
                   </div>
-                  <p className="text-xs text-muted-foreground mb-3">{creator.niche}</p>
+                  <p className="text-xs text-foreground/70 mb-3 leading-relaxed">{creator.bio}</p>
                   <div className="flex flex-wrap gap-1.5">
                     {creator.tags.map((tag) =>
                   <span key={tag} className="pill-badge bg-muted text-muted-foreground">{tag}</span>
@@ -387,7 +447,7 @@ export default function ForBrandsClient() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
             {[
-            { company: 'DTC Apparel Brand', role: 'Head of Growth', quote: 'Placeholder — authentic testimonial from a brand partner coming soon. We\'re in our first deal cycle and collecting real results.' },
+            { company: 'DTC Apparel Brand', role: 'Head of Growth', quote: "Placeholder — authentic testimonial from a brand partner coming soon. We're in our first deal cycle and collecting real results." },
             { company: 'Health & Wellness Co.', role: 'Marketing Director', quote: 'Placeholder — this will be replaced with a real quote from a brand that ran a campaign through TheCollabify.' }].
             map((t, i) =>
             <div key={i} className="placeholder-block text-left items-start reveal-on-scroll" data-delay={String(i * 0.1)}>
@@ -444,13 +504,13 @@ export default function ForBrandsClient() {
                 Your next creator partnership<br />
                 <span className="italic" style={{ color: 'var(--accent)' }}>starts here.</span>
               </h2>
-              <p className="text-white/70 mb-8 text-lg leading-relaxed">
+              <p className="text-white/80 mb-8 text-lg leading-relaxed">
                 Tell us your campaign goal. We&apos;ll send you a curated creator shortlist within 48 hours.
               </p>
               <button onClick={openPopup} className="btn-accent text-base px-10 py-4">
                 Start Getting Matched →
               </button>
-              <p className="text-white/40 text-xs mt-4">No upfront cost · Commission only · 48-hour turnaround</p>
+              <p className="text-white/50 text-xs mt-4">No upfront cost · Commission only · 48-hour turnaround</p>
             </div>
           </div>
         </div>

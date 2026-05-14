@@ -157,8 +157,8 @@ export default function ForCreatorsClient() {
           </div>
 
           <div className="lg:col-span-5 hidden lg:block">
-            <div className="glass-card rounded-2xl p-6 text-white">
-              <p className="text-xs font-bold uppercase tracking-widest text-white/50 mb-5">What creators get</p>
+            <div className="bg-[#0C1A3A]/80 backdrop-blur-md border border-white/20 rounded-2xl p-6 text-white">
+              <p className="text-xs font-bold uppercase tracking-widest text-white/70 mb-5">What creators get</p>
               <div className="space-y-4">
                 {[
                 'Matched brand deals delivered to your inbox',
@@ -167,7 +167,7 @@ export default function ForCreatorsClient() {
                 'Free to join — commission only when you earn'].
                 map((item, i) =>
                 <div key={i} className="flex items-center gap-3">
-                    <div className="w-5 h-5 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
+                    <div className="w-5 h-5 rounded-full bg-accent/30 flex items-center justify-center shrink-0">
                       <svg
                       width="10"
                       height="10"
@@ -182,7 +182,7 @@ export default function ForCreatorsClient() {
                         <polyline points="20 6 9 17 4 12" />
                       </svg>
                     </div>
-                    <span className="text-sm text-white/80">{item}</span>
+                    <span className="text-sm text-white font-medium">{item}</span>
                   </div>
                 )}
               </div>

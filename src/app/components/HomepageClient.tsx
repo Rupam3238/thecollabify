@@ -250,10 +250,10 @@ export default function HomepageClient() {
             </span>
             <h1 className="font-display text-hero font-black text-foreground mt-6 mb-6">
               Where brands<br />
-              <span className="italic text-muted-foreground">meet</span><br />
+              <span className="italic text-primary">meet</span><br />
               creators.
             </h1>
-            <p className="text-base text-muted-foreground leading-relaxed max-w-sm border-l-2 border-primary pl-4">
+            <p className="text-base text-foreground/70 leading-relaxed max-w-sm border-l-2 border-primary pl-4">
               We sit in the middle. We find the fit, structure the deal, and handle the negotiation. You only pay us when it closes.
             </p>
           </div>
@@ -314,12 +314,12 @@ export default function HomepageClient() {
             
             <div className="overlay-scrim" />
             {/* Floating stat card */}
-            <div className="absolute bottom-8 left-8 glass-card p-4 rounded-xl text-white max-w-[200px] z-10 float-anim">
+            <div className="absolute bottom-8 left-8 bg-gray-900/90 backdrop-blur-md border border-white/20 p-4 rounded-xl text-white max-w-[200px] z-10 float-anim">
               <div className="flex items-center gap-2 mb-1.5">
                 <div className="w-2 h-2 rounded-full bg-accent" />
-                <span className="text-xs font-semibold">New deal matched</span>
+                <span className="text-xs font-semibold text-white">New deal matched</span>
               </div>
-              <p className="text-xs opacity-80 leading-relaxed">Wellness brand × Fitness creator · $4,200 deal</p>
+              <p className="text-xs text-white/90 leading-relaxed">Wellness brand × Fitness creator · $4,200 deal</p>
             </div>
             {/* Second floating card */}
             <div className="absolute top-1/3 right-6 glass-card p-3.5 rounded-xl text-white z-10 float-anim-delay hidden md:block">
