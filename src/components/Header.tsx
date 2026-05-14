@@ -34,13 +34,13 @@ export default function Header({ variant = 'default', onOpenPopup }: HeaderProps
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isTransparent
-            ? 'py-3 bg-black/60 backdrop-blur-md border-b border-white/10' :'py-3 bg-card/90 backdrop-blur-md border-b border-border shadow-sm'
+            ? 'py-4 bg-black/60 backdrop-blur-md border-b border-white/10' :'py-3 bg-card/90 backdrop-blur-md border-b border-border shadow-sm'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 group">
-            <AppLogo size={36} />
-            <span className="font-display font-750 text-lg tracking-tight">
+            <AppLogo size={38} />
+            <span className="font-display font-700 text-xl tracking-tight">
               <span className={isTransparent ? 'text-white' : 'text-foreground'}>the</span>
               <span className={`font-black ${isTransparent ? 'text-accent' : 'text-primary'}`}>collabify</span>
             </span>
