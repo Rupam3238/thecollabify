@@ -7,37 +7,23 @@ interface SignupPopupProps {
   onClose: () => void;
 }
 
-const BRAND_ENDPOINT = 'https://formspree.io/f/mqenorej';
-const CREATOR_ENDPOINT = 'https://formspree.io/f/mzdoqndn';
-
 export default function SignupPopup({ isOpen, initialMode, onClose }: SignupPopupProps) {
   const [mode, setMode] = useState<'brand' | 'creator'>(initialMode);
   const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState('');
-
-  // Brand form state
-  const [brandForm, setBrandForm] = useState({
-    name: '',
-    brandName: '',
-    email: '',
-    industry: '',
-    budget: '',
-  });
-
-  // Creator form state
-  const [creatorForm, setCreatorForm] = useState({
+  const [formData, setFormData] = useState({
     name: '',
     email: '',
-    platform: '',
+    company: '',
+    website: '',
+    handle: '',
     niche: '',
     followers: '',
+    message: '',
   });
 
   useEffect(() => {
     setMode(initialMode);
     setSubmitted(false);
-    setError('');
   }, [initialMode, isOpen]);
 
   useEffect(() => {
@@ -58,72 +44,10 @@ export default function SignupPopup({ isOpen, initialMode, onClose }: SignupPopu
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
 
-  const handleBrandSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setSubmitting(true);
-  setError('');
-  try {
-    const formData = new FormData();
-    formData.append('name', brandForm.name);
-    formData.append('brand_name', brandForm.brandName);
-    formData.append('email', brandForm.email);
-    formData.append('industry', brandForm.industry);
-    formData.append('campaign_budget', brandForm.budget);
-
-    const res = await fetch(BRAND_ENDPOINT, {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (res.ok) {
-      setSubmitted(true);
-      setBrandForm({ name: '', brandName: '', email: '', industry: '', budget: '' });
-    } else {
-      setError('Submission failed. Please try again.');
-    }
-  } catch (err) {
-    setError('Network error. Please try again.');
-    console.error(err);
-  } finally {
-    setSubmitting(false);
-  }
-};
-
-  const handleCreatorSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setSubmitting(true);
-  setError('');
-  try {
-    const formData = new FormData();
-    formData.append('name', creatorForm.name);
-    formData.append('email', creatorForm.email);
-    formData.append('platform', creatorForm.platform);
-    formData.append('content_niche', creatorForm.niche);
-    formData.append('follower_count', creatorForm.followers);
-
-    const res = await fetch(CREATOR_ENDPOINT, {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (res.ok) {
-      setSubmitted(true);
-      setCreatorForm({ name: '', email: '', platform: '', niche: '', followers: '' });
-    } else {
-      setError('Submission failed. Please try again.');
-    }
-  } catch (err) {
-    setError('Network error. Please try again.');
-    console.error(err);
-  } finally {
-    setSubmitting(false);
-  }
-};
-
-  const inputClass =
-    'w-full px-3.5 py-2.5 rounded-xl border border-input bg-muted text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all';
-  const labelClass =
-    'block text-xs font-semibold text-muted-foreground mb-1.5 uppercase tracking-wide';
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+  };
 
   if (!isOpen) return null;
 
@@ -137,7 +61,7 @@ export default function SignupPopup({ isOpen, initialMode, onClose }: SignupPopu
         className="absolute inset-0 bg-foreground/60 backdrop-blur-sm"
         onClick={onClose}
       />
-      <div className="relative w-full max-w-lg bg-card rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
+      <div className="relative w-full max-w-lg bg-card rounded-3xl shadow-2xl overflow-hidden">
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-accent to-primary" />
 
         <div className="p-8">
@@ -146,14 +70,14 @@ export default function SignupPopup({ isOpen, initialMode, onClose }: SignupPopu
               {(['brand', 'creator'] as const).map((m) => (
                 <button
                   key={m}
-                  onClick={() => { setMode(m); setSubmitted(false); setError(''); }}
+                  onClick={() => setMode(m)}
                   className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 ${
                     mode === m
                       ? 'bg-primary text-primary-foreground shadow-sm'
                       : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
-                  {m === 'brand' ? "I'm a Brand" : "I'm a Creator"}
+                  {m === 'brand' ? 'I\'m a Brand' : 'I\'m a Creator'}
                 </button>
               ))}
             </div>
@@ -177,7 +101,7 @@ export default function SignupPopup({ isOpen, initialMode, onClose }: SignupPopu
               </div>
               <h3 className="font-display text-2xl font-semibold text-foreground mb-2">You&apos;re on the list!</h3>
               <p className="text-muted-foreground text-sm leading-relaxed max-w-xs mx-auto">
-                Thanks! We&apos;ll be in touch within 24 hours.
+                We&apos;ll be in touch within 48 hours to kick off your matching process.
               </p>
               <button onClick={onClose} className="btn-primary mt-6 mx-auto">Close</button>
             </div>
@@ -188,185 +112,123 @@ export default function SignupPopup({ isOpen, initialMode, onClose }: SignupPopu
                   {mode === 'brand' ? 'Find your perfect creator' : 'Land your next brand deal'}
                 </h2>
                 <p className="text-sm text-muted-foreground">
-                  {mode === 'brand' ? "Tell us about your brand and we'll match you with the right voices." :"Tell us about your content and we'll bring deals to you."}
+                  {mode === 'brand' ?'Tell us about your brand and we\'ll match you with the right voices.' :'Tell us about your content and we\'ll bring deals to you.'}
                 </p>
               </div>
 
-              {mode === 'brand' ? (
-                <form onSubmit={handleBrandSubmit} className="space-y-4">
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className={labelClass}>Name *</label>
-                      <input
-                        type="text"
-                        required
-                        value={brandForm.name}
-                        onChange={(e) => setBrandForm((p) => ({ ...p, name: e.target.value }))}
-                        placeholder="Alex Johnson"
-                        className={inputClass}
-                      />
-                    </div>
-                    <div>
-                      <label className={labelClass}>Brand Name *</label>
-                      <input
-                        type="text"
-                        required
-                        value={brandForm.brandName}
-                        onChange={(e) => setBrandForm((p) => ({ ...p, brandName: e.target.value }))}
-                        placeholder="Acme Brand Co."
-                        className={inputClass}
-                      />
-                    </div>
-                  </div>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className={labelClass}>Email *</label>
+                    <label className="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase tracking-wide">Full Name *</label>
                     <input
-                      type="email"
+                      type="text"
                       required
-                      value={brandForm.email}
-                      onChange={(e) => setBrandForm((p) => ({ ...p, email: e.target.value }))}
-                      placeholder="alex@brand.com"
-                      className={inputClass}
+                      value={formData.name}
+                      onChange={(e) => setFormData(p => ({ ...p, name: e.target.value }))}
+                      placeholder="Alex Johnson"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-input bg-muted text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
                     />
                   </div>
                   <div>
-                    <label className={labelClass}>Industry *</label>
-                    <select
+                    <label className="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase tracking-wide">Email *</label>
+                    <input
+                      type="email"
                       required
-                      value={brandForm.industry}
-                      onChange={(e) => setBrandForm((p) => ({ ...p, industry: e.target.value }))}
-                      className={inputClass}
-                    >
-                      <option value="">Select industry</option>
-                      <option value="E-commerce/D2C">E-commerce / D2C</option>
-                      <option value="SaaS/Tech">SaaS / Tech</option>
-                      <option value="Fashion">Fashion</option>
-                      <option value="Food">Food</option>
-                      <option value="Health">Health</option>
-                      <option value="Gaming">Gaming</option>
-                      <option value="Finance">Finance</option>
-                      <option value="Other">Other</option>
-                    </select>
+                      value={formData.email}
+                      onChange={(e) => setFormData(p => ({ ...p, email: e.target.value }))}
+                      placeholder="alex@brand.com"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-input bg-muted text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+                    />
                   </div>
-                  <div>
-                    <label className={labelClass}>Campaign Budget *</label>
-                    <select
-                      required
-                      value={brandForm.budget}
-                      onChange={(e) => setBrandForm((p) => ({ ...p, budget: e.target.value }))}
-                      className={inputClass}
-                    >
-                      <option value="">Select budget range</option>
-                      <option value="Under ₹25K">Under ₹25K</option>
-                      <option value="₹25K–₹1L">₹25K – ₹1L</option>
-                      <option value="₹1L–₹5L">₹1L – ₹5L</option>
-                      <option value="₹5L+">₹5L+</option>
-                    </select>
-                  </div>
-                  {error && <p className="text-red-500 text-xs">{error}</p>}
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="btn-primary w-full py-3.5 text-base disabled:opacity-60"
-                  >
-                    {submitting ? 'Submitting…' : 'Start Getting Matched →'}
-                  </button>
-                  <p className="text-center text-xs text-muted-foreground">
-                    No upfront cost. We only earn when your deal closes.
-                  </p>
-                </form>
-              ) : (
-                <form onSubmit={handleCreatorSubmit} className="space-y-4">
-                  <div className="grid grid-cols-2 gap-3">
+                </div>
+
+                {mode === 'brand' ? (
+                  <>
                     <div>
-                      <label className={labelClass}>Name *</label>
+                      <label className="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase tracking-wide">Company Name *</label>
                       <input
                         type="text"
                         required
-                        value={creatorForm.name}
-                        onChange={(e) => setCreatorForm((p) => ({ ...p, name: e.target.value }))}
-                        placeholder="Alex Johnson"
-                        className={inputClass}
+                        value={formData.company}
+                        onChange={(e) => setFormData(p => ({ ...p, company: e.target.value }))}
+                        placeholder="Acme Brand Co."
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-input bg-muted text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
                       />
                     </div>
                     <div>
-                      <label className={labelClass}>Email *</label>
+                      <label className="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase tracking-wide">Website</label>
                       <input
-                        type="email"
-                        required
-                        value={creatorForm.email}
-                        onChange={(e) => setCreatorForm((p) => ({ ...p, email: e.target.value }))}
-                        placeholder="alex@email.com"
-                        className={inputClass}
+                        type="url"
+                        value={formData.website}
+                        onChange={(e) => setFormData(p => ({ ...p, website: e.target.value }))}
+                        placeholder="https://yourbrand.com"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-input bg-muted text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
                       />
                     </div>
-                  </div>
-                  <div>
-                    <label className={labelClass}>Platform *</label>
-                    <select
-                      required
-                      value={creatorForm.platform}
-                      onChange={(e) => setCreatorForm((p) => ({ ...p, platform: e.target.value }))}
-                      className={inputClass}
-                    >
-                      <option value="">Select platform</option>
-                      <option value="Instagram">Instagram</option>
-                      <option value="YouTube">YouTube</option>
-                      <option value="TikTok">TikTok</option>
-                      <option value="Twitter/X">Twitter / X</option>
-                      <option value="LinkedIn">LinkedIn</option>
-                      <option value="Multiple">Multiple</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className={labelClass}>Content Niche *</label>
-                    <select
-                      required
-                      value={creatorForm.niche}
-                      onChange={(e) => setCreatorForm((p) => ({ ...p, niche: e.target.value }))}
-                      className={inputClass}
-                    >
-                      <option value="">Select niche</option>
-                      <option value="Tech">Tech</option>
-                      <option value="Fashion">Fashion</option>
-                      <option value="Gaming">Gaming</option>
-                      <option value="Health">Health</option>
-                      <option value="Finance">Finance</option>
-                      <option value="Food">Food</option>
-                      <option value="Travel">Travel</option>
-                      <option value="Education">Education</option>
-                      <option value="Other">Other</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className={labelClass}>Follower Count *</label>
-                    <select
-                      required
-                      value={creatorForm.followers}
-                      onChange={(e) => setCreatorForm((p) => ({ ...p, followers: e.target.value }))}
-                      className={inputClass}
-                    >
-                      <option value="">Select range</option>
-                      <option value="Under 10K">Under 10K</option>
-                      <option value="10K–50K">10K – 50K</option>
-                      <option value="50K–200K">50K – 200K</option>
-                      <option value="200K–1M">200K – 1M</option>
-                      <option value="1M+">1M+</option>
-                    </select>
-                  </div>
-                  {error && <p className="text-red-500 text-xs">{error}</p>}
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="btn-primary w-full py-3.5 text-base disabled:opacity-60"
-                  >
-                    {submitting ? 'Submitting…' : 'Apply to Join the Network →'}
-                  </button>
-                  <p className="text-center text-xs text-muted-foreground">
-                    No upfront cost. We only earn when your deal closes.
-                  </p>
-                </form>
-              )}
+                  </>
+                ) : (
+                  <>
+                    <div>
+                      <label className="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase tracking-wide">Main Social Handle *</label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.handle}
+                        onChange={(e) => setFormData(p => ({ ...p, handle: e.target.value }))}
+                        placeholder="@yourhandle"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-input bg-muted text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase tracking-wide">Niche</label>
+                        <input
+                          type="text"
+                          value={formData.niche}
+                          onChange={(e) => setFormData(p => ({ ...p, niche: e.target.value }))}
+                          placeholder="Fitness, Travel..."
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-input bg-muted text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase tracking-wide">Followers</label>
+                        <select
+                          value={formData.followers}
+                          onChange={(e) => setFormData(p => ({ ...p, followers: e.target.value }))}
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-input bg-muted text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+                        >
+                          <option value="">Select range</option>
+                          <option value="1k-10k">1K – 10K</option>
+                          <option value="10k-50k">10K – 50K</option>
+                          <option value="50k-200k">50K – 200K</option>
+                          <option value="200k+">200K+</option>
+                        </select>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                <div>
+                  <label className="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase tracking-wide">
+                    {mode === 'brand' ? 'What are you looking for?' : 'Tell us about your content'}
+                  </label>
+                  <textarea
+                    rows={3}
+                    value={formData.message}
+                    onChange={(e) => setFormData(p => ({ ...p, message: e.target.value }))}
+                    placeholder={mode === 'brand' ? 'Describe your campaign goals, target audience, budget range...' : 'What brands would be a natural fit for your audience?'}
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-input bg-muted text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all resize-none"
+                  />
+                </div>
+
+                <button type="submit" className="btn-primary w-full py-3.5 text-base">
+                  {mode === 'brand' ? 'Start Getting Matched →' : 'Apply to Join the Network →'}
+                </button>
+
+                <p className="text-center text-xs text-muted-foreground">
+                  No upfront cost. We only earn when your deal closes.
+                </p>
+              </form>
             </>
           )}
         </div>
