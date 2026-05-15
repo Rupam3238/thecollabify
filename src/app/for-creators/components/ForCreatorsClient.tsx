@@ -296,15 +296,15 @@ export default function ForCreatorsClient() {
                   className="object-cover hover:scale-105 transition-transform duration-[2.5s]" />
                 
                 <div className="overlay-scrim" />
-                <div className="absolute bottom-8 left-8 glass-card p-4 rounded-xl text-white max-w-[220px] z-10 float-anim">
-                  <p className="text-xs font-bold mb-1">Deal offer received</p>
-                  <p className="text-xs opacity-75 leading-relaxed">
+                <div className="absolute bottom-8 left-8 bg-gray-900/90 backdrop-blur-md border border-white/20 p-4 rounded-xl text-white max-w-[220px] z-10 float-anim">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <div className="w-2 h-2 rounded-full bg-accent" />
+                    <span className="text-xs font-semibold text-white">Deal offer received</span>
+                  </div>
+                  <p className="text-xs text-white/90 leading-relaxed">
                     Fitness Brand × You · $2,800 sponsored post
                   </p>
-                  <div className="flex items-center gap-2 mt-2">
-                    <div className="w-2 h-2 rounded-full bg-accent" />
-                    <span className="text-[10px] text-white/70">Awaiting your response</span>
-                  </div>
+                  <span className="text-[10px] text-white/75 mt-2 block">Awaiting your response</span>
                 </div>
               </div>
               {/* Decorative rotated border */}
