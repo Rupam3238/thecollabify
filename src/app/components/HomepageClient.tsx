@@ -522,7 +522,7 @@ export default function HomepageClient() {
 
               <div className="mt-16 flex flex-wrap items-center justify-center gap-8 border-t border-white/10 pt-10">
                 {[
-                { num: '500+', label: 'Vetted Creators' },
+                { num: '50+', label: 'Vetted Creators' },
                 { num: '$0', label: 'Upfront Cost' },
                 { num: '94%', label: 'Match Close Rate' },
                 { num: '<7d', label: 'To First Match' }].
