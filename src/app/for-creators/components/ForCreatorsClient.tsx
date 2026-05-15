@@ -196,10 +196,10 @@ export default function ForCreatorsClient() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-            { num: '500+', label: 'Creators in Network' },
+            { num: '1:1', label: 'Creator-Brand Matching' },
             { num: '$0', label: 'Cost to Join' },
-            { num: '48h', label: 'First Match Avg.' },
-            { num: '94%', label: 'Deal Close Rate' }].
+            { num: '0%', label: 'Back-and-Forth Hassle.' },
+            { num: '100%', label: 'Creator Focus' }].
             map((stat, i) =>
             <div key={i} className="text-center reveal-on-scroll" data-delay={String(i * 0.08)}>
                 <p className="font-display text-3xl font-black text-white">{stat.num}</p>
