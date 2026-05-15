@@ -42,7 +42,7 @@ export default function Header({ variant = 'default', onOpenPopup }: HeaderProps
             <AppLogo size={38} />
             <span className="font-display font-700 text-xl tracking-tight">
               <span className={isTransparent ? 'text-white' : 'text-foreground'}>the</span>
-              <span className={`font-black ${isTransparent ? 'text-accent' : 'text-primary'}`}>collabify</span>
+              <span className="font-black text-primary">collabify</span>
             </span>
           </Link>
 
