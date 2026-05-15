@@ -317,9 +317,9 @@ export default function ForBrandsClient() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { num: '500+', label: 'Creators in Network' },
+              { num: '50+', label: 'Creators in Network' },
               { num: '$0', label: 'Cost to Join' },
-              { num: '48h', label: 'First Match Avg.' },
+              { num: '72h', label: 'First Match Avg.' },
               { num: '94%', label: 'Deal Close Rate' }
             ].map((stat, i) =>
               <div key={i} className="text-center reveal-on-scroll" data-delay={String(i * 0.08)}>
