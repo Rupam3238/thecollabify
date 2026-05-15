@@ -312,6 +312,25 @@ export default function ForBrandsClient() {
         </div>
       </section>
 
+      {/* Stats Section */}
+      <section className="py-10 px-6 md:px-12 bg-dark-section border-y border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              { num: '500+', label: 'Creators in Network' },
+              { num: '$0', label: 'Cost to Join' },
+              { num: '48h', label: 'First Match Avg.' },
+              { num: '94%', label: 'Deal Close Rate' }
+            ].map((stat, i) =>
+              <div key={i} className="text-center reveal-on-scroll" data-delay={String(i * 0.08)}>
+                <p className="font-display text-3xl font-black text-white">{stat.num}</p>
+                <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{stat.label}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
       {/* Value Props */}
       <section className="py-20 px-6 md:px-12 bg-muted">
         <div className="max-w-7xl mx-auto">
